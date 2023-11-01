@@ -9,6 +9,8 @@ import {
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>

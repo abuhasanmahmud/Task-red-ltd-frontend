@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 const Task = () => {
   const [allTask, setAllTask] = useState([]);
   const [isDeleteTask, setIsDeleteTask] = useState(false);
+  console.log("isDeleteTask", isDeleteTask);
   useEffect(() => {
     (async () => {
       try {
@@ -15,6 +16,7 @@ const Task = () => {
         console.log("res..", res);
         if (res) {
           setAllTask(res?.tasks);
+          setIsDeleteTask(false);
         }
       } catch (err) {
         toast.error(err ? err?.response?.data?.message : err.message || "erros");
@@ -22,7 +24,7 @@ const Task = () => {
     })();
   }, [isDeleteTask]);
 
-  console.log("all task", allTask);
+  // console.log("all task", allTask);
   const [isProductDrawerOpen, setIsProductDrawerOpen] = useState(false);
   const [productDetails, setProductDetails] = useState({});
   const [productId, setProductId] = useState("");
