@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  createRoutesFromElements,
+  Route,
+  ScrollRestoration,
+} from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import Home from "./components/Home/Home";
+import { ToastContainer } from "react-toastify";
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<Layout />}>
+        {/* ==================== Header Navlink Start here =================== */}
+        <Route index element={<Home />}></Route>
+
+        {/* <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <Checkout />
+            </PrivateRoute>
+          }
+        ></Route> */}
+      </Route>
+      {/* <Route path="/signup" element={<SignUp />}></Route>
+      <Route path="/signin" element={<SignIn />}></Route> */}
+    </Route>
+  )
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
   );
 }
 
