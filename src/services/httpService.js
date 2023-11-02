@@ -1,7 +1,8 @@
 import axios from "axios";
-// const BASE_URL = "http://localhost:4000/api/";
-const BASE_URL = "https://redgreen-ltb-task-backend.vercel.app/api";
-
+const BASE_URL = "http://localhost:4000/api/";
+// const BASE_URL = "https://redgreen-ltb-task-backend.vercel.app/api";
+// const BASE_URL = process.env.REACT_APP_API_URL;
+console.log("base url", BASE_URL);
 const instance = axios.create({
   baseURL: BASE_URL,
   timeout: 50000,

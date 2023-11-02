@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useLoginMutation } from "../../redux/api/userApiSlice";
 import { setCredentials } from "../../redux/slice/authSlice";
-
+import { Bars } from "react-loader-spinner";
 const SignIn = () => {
   const {
     register,
@@ -14,7 +14,7 @@ const SignIn = () => {
   } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [submiting, setSubmiting] = useState(false);
   const [login] = useLoginMutation();
 
   const location = useLocation();
@@ -22,6 +22,7 @@ const SignIn = () => {
   //   console.log("fromLocation", fromLocation);
 
   const onSubmit = async (data) => {
+    setSubmiting(true);
     const email = data.email;
     const password = data.password;
     // console.log("email", email, password);
@@ -31,14 +32,17 @@ const SignIn = () => {
 
       if (res.error) {
         toast.error(res?.error?.data?.message || res.error);
+        setSubmiting(false);
         return;
       }
       const userData = res.data;
       dispatch(setCredentials({ ...userData }));
       navigate(fromLocation ? fromLocation : "/");
       toast.success("User login successfully");
+      setSubmiting(false);
     } catch (err) {
       console.log("err in singin ", err);
+      setSubmiting(false);
     }
   };
   return (
@@ -98,11 +102,25 @@ const SignIn = () => {
           </div>
 
           <button
+            disabled={submiting}
             type="submit"
             className=" bg-black text-white cursor-pointer w-full mt-4 text-base font-medium h-10 rounded-md  duration-300"
           >
             Sign In
           </button>
+          {submiting && (
+            <>
+              <Bars
+                height="50"
+                width="50"
+                color="#4fa94d"
+                ariaLabel="bars-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            </>
+          )}
 
           <p className="text-sm text-center font-titleFont font-medium mt-4">
             Don't have an Account?{" "}

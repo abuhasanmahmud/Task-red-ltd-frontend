@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRegisterUserMutation } from "../../redux/api/userApiSlice";
 import { setCredentials } from "../../redux/slice/authSlice";
 import { toast } from "react-toastify";
+import { Bars } from "react-loader-spinner";
 
 const SignUp = () => {
   const {
@@ -14,13 +15,14 @@ const SignUp = () => {
   } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.user);
+  const [submiting, setSubmiting] = useState(false);
+
   const location = useLocation();
   const fromLocation = location?.state?.from?.pathname;
-  console.log("location", location, "fromLocation", fromLocation);
   const [registerUser] = useRegisterUserMutation();
 
   const onSubmit = async (data) => {
+    setSubmiting(true);
     const name = data.name;
     const email = data.email;
     const password = data.password;
@@ -30,6 +32,7 @@ const SignUp = () => {
 
       if (res.error) {
         toast.error(res?.error?.data?.message || res.error);
+        setSubmiting(false);
         return;
       }
       const userData = res.data;
@@ -37,8 +40,10 @@ const SignUp = () => {
       dispatch(setCredentials({ ...userData }));
       navigate(fromLocation ? fromLocation : "/");
       toast.success("User login successfully");
+      setSubmiting(false);
     } catch (error) {
       console.log("error", error);
+      setSubmiting(false);
     }
   };
   return (
@@ -124,11 +129,25 @@ const SignUp = () => {
           </div>
 
           <button
+            disabled={submiting}
             type="submit"
             className=" bg-black text-white cursor-pointer w-full mt-4 text-base font-medium h-10 rounded-md  duration-300"
           >
             Create Account
           </button>
+          {submiting && (
+            <>
+              <Bars
+                height="50"
+                width="50"
+                color="#4fa94d"
+                ariaLabel="bars-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            </>
+          )}
           <p className="text-sm text-center font-titleFont font-medium mt-4">
             allready have an Account?{" "}
             <Link to="/signin">
