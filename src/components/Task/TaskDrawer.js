@@ -19,7 +19,6 @@ const TaskDrawer = ({ isTaskDrawerOpen, setIsTaskDrawerOpen, taskDetails, setIsA
     setValue("issue", taskDetails?.issue);
     setValue("des", taskDetails?.des);
     setValue("section", taskDetails?.section);
-    // setValue("img", taskDetails?.img);
   }, [taskDetails]);
 
   const [submitting, setSubmitting] = useState(false);
@@ -57,7 +56,6 @@ const TaskDrawer = ({ isTaskDrawerOpen, setIsTaskDrawerOpen, taskDetails, setIsA
       setIsAddOrUpdateTask(true);
     }
   };
-  // const [open, setOpen] = useState(true);
 
   return (
     <Transition.Root show={isTaskDrawerOpen} as={Fragment}>

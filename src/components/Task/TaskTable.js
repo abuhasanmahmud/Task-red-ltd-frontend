@@ -1,6 +1,5 @@
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BsEyeFill } from "react-icons/bs";
-import TaskServices from "../../services/TaskServices";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import TaskDetails from "../Modal/TaskDetails";
@@ -10,6 +9,7 @@ const TaskTable = ({ tasks, setTaskId, setIsDeleteModalOpen, handelTaskBtnClick 
   const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
   const [taskDetails, setTaskDetails] = useState({});
   const { userInfo } = useSelector((state) => state.user);
+
   //handle delete btn click
   const handelDeleteBtnClick = (task) => {
     if (!userInfo?.email) {

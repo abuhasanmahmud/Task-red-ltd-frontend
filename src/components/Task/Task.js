@@ -18,8 +18,8 @@ const Task = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteTask, setIsDeleteTask] = useState(false);
   const [searchText, setSearchText] = useState("");
-  // console.log("isDeleteModalOpen", isDeleteModalOpen);
 
+  //get all task
   useEffect(() => {
     (async () => {
       try {
@@ -47,14 +47,11 @@ const Task = () => {
     }
   };
 
-  //handle shorting by category
+  //handle shorting
   const [shotvalue, setShotValue] = useState("");
   const sv = shotvalue?.toString().replaceAll(" ", "").toLowerCase();
-  // console.log("sv", sv);
-
   if (shotvalue) {
     if (sv === "popularity") {
-      allTask?.sort((a, b) => (a.numOfReviews > b.numOfReviews ? 1 : -1));
     } else if (sv === "a_zorder") {
       allTask?.sort((a, b) => (a.issue > b.issue ? 1 : -1));
     } else if (sv === "z_aorder") {
