@@ -15,7 +15,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
 
   const location = useLocation();
   const fromLocation = location?.state?.from?.pathname;

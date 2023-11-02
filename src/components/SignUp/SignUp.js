@@ -18,7 +18,7 @@ const SignUp = () => {
   const location = useLocation();
   const fromLocation = location?.state?.from?.pathname;
   console.log("location", location, "fromLocation", fromLocation);
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const [registerUser] = useRegisterUserMutation();
 
   const onSubmit = async (data) => {
     const name = data.name;
