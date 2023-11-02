@@ -2,7 +2,8 @@
 #Live Link : https://task-red-ltd-frontend.vercel.app/<br> <br>
 
 **Functionality**<br>
-   `1.`Task Crud operation<br>
-   `2.`Task filtering<br>
+`1.`Singin and signup<br>
+   `2.`Task Crud operation<br>
    `3.`Task shorting<br>
+   `4.`Task shorting<br>
 
