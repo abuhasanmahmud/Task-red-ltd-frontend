@@ -1,15 +1,32 @@
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { BsEyeFill } from "react-icons/bs";
 import TaskServices from "../../services/TaskServices";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import TaskDetails from "../Modal/TaskDetails";
 
 const TaskTable = ({ tasks, setTaskId, setIsDeleteModalOpen, handelTaskBtnClick }) => {
+  const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
+  const [taskDetails, setTaskDetails] = useState({});
+  //handle delete btn click
   const handelDeleteBtnClick = (task) => {
     setTaskId(task._id.toString());
     setIsDeleteModalOpen(true);
   };
 
+  //handel task details icon click
+  const handelTaskDetailsModal = (task) => {
+    setTaskDetails(task);
+    setIsTaskDetailsModalOpen(true);
+  };
+
   return (
     <>
+      <TaskDetails
+        isTaskDetailsModalOpen={isTaskDetailsModalOpen}
+        setIsTaskDetailsModalOpen={setIsTaskDetailsModalOpen}
+        taskDetails={taskDetails}
+      />
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="mt-8 flow-root">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -69,7 +86,17 @@ const TaskTable = ({ tasks, setTaskId, setIsDeleteModalOpen, handelTaskBtnClick 
                         {task?.section}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{task?.des}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">details icon</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <div
+                          onClick={() => handelTaskDetailsModal(task)}
+                          className="flex gap-2 cursor-pointer"
+                        >
+                          <span>view details</span>
+                          <span>
+                            <BsEyeFill size={20} />
+                          </span>
+                        </div>
+                      </td>
 
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4  flex justify-center  items-center gap-2 text-sm font-medium sm:pr-0 mt-2">
                         <button
