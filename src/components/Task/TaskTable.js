@@ -4,18 +4,26 @@ import TaskServices from "../../services/TaskServices";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import TaskDetails from "../Modal/TaskDetails";
+import { useSelector } from "react-redux";
 
 const TaskTable = ({ tasks, setTaskId, setIsDeleteModalOpen, handelTaskBtnClick }) => {
   const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
   const [taskDetails, setTaskDetails] = useState({});
+  const { userInfo } = useSelector((state) => state.user);
   //handle delete btn click
   const handelDeleteBtnClick = (task) => {
+    if (!userInfo?.email) {
+      return toast.error("Login or singup first then you can access task functionality");
+    }
     setTaskId(task._id.toString());
     setIsDeleteModalOpen(true);
   };
 
   //handel task details icon click
   const handelTaskDetailsModal = (task) => {
+    if (!userInfo?.email) {
+      return toast.error("Login or singup first then you can see task details");
+    }
     setTaskDetails(task);
     setIsTaskDetailsModalOpen(true);
   };

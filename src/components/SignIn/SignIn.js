@@ -14,14 +14,12 @@ const SignIn = () => {
   } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.user);
-  const [checked, setChecked] = useState(false);
 
   const [login, { isLoading }] = useLoginMutation();
 
   const location = useLocation();
   const fromLocation = location?.state?.from?.pathname;
-  console.log("fromLocation", fromLocation);
+  //   console.log("fromLocation", fromLocation);
 
   const onSubmit = async (data) => {
     const email = data.email;
@@ -29,7 +27,7 @@ const SignIn = () => {
     // console.log("email", email, password);
     try {
       const res = await login({ email, password });
-      // console.log("res", res);
+      //       console.log("res", res);
 
       if (res.error) {
         toast.error(res?.error?.data?.message || res.error);
@@ -56,11 +54,15 @@ const SignIn = () => {
             <input
               className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
               type="email"
-              placeholder="john@workemail.com"
+              placeholder="user: mahmud@gmail.com"
               {...register("email", {
                 required: {
                   value: true,
                   message: "Email Required !!!",
+                },
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+                  message: "Invalid Email Provided !!!",
                 },
               })}
             />
@@ -80,7 +82,7 @@ const SignIn = () => {
             <input
               className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
               type="password"
-              placeholder="Your password"
+              placeholder="password: 12345678"
               {...register("password", {
                 required: {
                   value: true,

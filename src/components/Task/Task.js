@@ -6,6 +6,7 @@ import TaskServices from "../../services/TaskServices";
 import { toast } from "react-toastify";
 import TaskDrawer from "./TaskDrawer";
 import DeleteModal from "../Modal/DeleteModal";
+import { useSelector } from "react-redux";
 
 const Task = () => {
   const [allTask, setAllTask] = useState([]);
@@ -61,16 +62,22 @@ const Task = () => {
     }
   }
 
-  // console.log("allProducts", allProducts, "filter product=", allTask);
+  const { userInfo } = useSelector((state) => state.user);
 
   //handle task add btn click
   const handelAddAndTaskDetails = () => {
+    if (!userInfo?.email) {
+      return toast.error("Login or singup first then you can access task functionality");
+    }
     setIsTaskDrawerOpen(true);
     setTaskDetails({});
   };
 
   //handel task  update click
   const handelTaskBtnClick = (item) => {
+    if (!userInfo?.email) {
+      return toast.error("Login or singup first then you can access task functionality");
+    }
     setTaskDetails(item);
     setIsTaskDrawerOpen(true);
   };
