@@ -1,13 +1,13 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import TaskServices from "../../services/TaskServices";
 import { Bars } from "react-loader-spinner";
 const DeleteModal = ({ taskId, isDeleteModalOpen, setIsDeleteModalOpen, setIsDeleteTask }) => {
-  // const cancelButtonRef = useRef(null);
   const [deleting, setDeletting] = useState(false);
 
+  //handel delete task api call
   const handelDelete = async () => {
     setDeletting(true);
     const res = await TaskServices.deleteTask(taskId);

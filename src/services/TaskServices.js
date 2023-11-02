@@ -29,26 +29,6 @@ const TaskServices = {
   updateTask: async (id, body) => {
     return requests.patch(`/tasks/${id}`, body);
   },
-  //   updateManyProducts: async (body) => {
-  //     return requests.patch("products/update/many", body);
-  //   },
-  //   updateStatus: async (id, body) => {
-  //     return requests.put(`/products/status/${id}`, body);
-  //   },
-  //   updateVariant: async (id, body) => {
-  //     return requests.put(`/products/variant/${id}`, body);
-  //   },
-  //   deleteVariant: async (id, body) => {
-  //     return requests.patch(`products/variant/${id}`, body);
-  //   },
-
-  //   deleteManyProducts: async (body) => {
-  //     return requests.patch("/products/delete/many", body);
-  //   },
-
-  //   checkChildProduct: async (id, body) => {
-  //     return requests.patch(`/products/child/${id}`, body);
-  //   },
 };
 
 export default TaskServices;

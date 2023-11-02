@@ -1,9 +1,5 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { RiDeleteBin5Fill } from "react-icons/ri";
-import { toast } from "react-toastify";
-import TaskServices from "../../services/TaskServices";
-import { Bars } from "react-loader-spinner";
 const TaskDetails = ({ isTaskDetailsModalOpen, setIsTaskDetailsModalOpen, taskDetails }) => {
   return (
     <Transition.Root show={isTaskDetailsModalOpen} as={Fragment}>

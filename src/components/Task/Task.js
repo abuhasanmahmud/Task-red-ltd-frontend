@@ -8,11 +8,12 @@ import TaskDrawer from "./TaskDrawer";
 import DeleteModal from "../Modal/DeleteModal";
 
 const Task = () => {
+  const [allTask, setAllTask] = useState([]);
   const [isTaskDrawerOpen, setIsTaskDrawerOpen] = useState(false);
   const [taskDetails, setTaskDetails] = useState({});
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredTasks, setFilteredTasks] = useState([]);
   const [taskId, setTaskId] = useState("");
-  const [allTask, setAllTask] = useState([]);
+
   const [isAddOrUpdateTask, setIsAddOrUpdateTask] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteTask, setIsDeleteTask] = useState(false);
@@ -44,15 +45,15 @@ const Task = () => {
 
   if (shotvalue) {
     if (sv === "popularity") {
-      filteredProducts?.sort((a, b) => (a.numOfReviews > b.numOfReviews ? 1 : -1));
+      filteredTasks?.sort((a, b) => (a.numOfReviews > b.numOfReviews ? 1 : -1));
     } else if (sv === "a_zorder") {
-      filteredProducts?.sort((a, b) => (a.name > b.name ? 1 : -1));
+      filteredTasks?.sort((a, b) => (a.name > b.name ? 1 : -1));
     } else if (sv === "z_aorder") {
-      filteredProducts?.sort((a, b) => (b.name > a.name ? 1 : -1));
+      filteredTasks?.sort((a, b) => (b.name > a.name ? 1 : -1));
     } else if (sv === "low_highprice") {
-      filteredProducts?.sort((a, b) => (Number(a.price) > Number(b.price) ? 1 : -1));
+      filteredTasks?.sort((a, b) => (Number(a.price) > Number(b.price) ? 1 : -1));
     } else if (sv === "high_lowprice") {
-      filteredProducts?.sort((a, b) => (Number(b.price) > Number(a.price) ? 1 : -1));
+      filteredTasks?.sort((a, b) => (Number(b.price) > Number(a.price) ? 1 : -1));
     }
   }
 
@@ -60,22 +61,22 @@ const Task = () => {
   const [searchText, setSearchText] = useState("");
 
   const handleSearch = (event) => {
-    //     if (event.key === "Enter") {
-    //       const newFilteredProducts = tasks?.filter((product) =>
-    //         product.name.toLowerCase().includes(searchText.toLowerCase())
-    //       );
-    //       setFilteredProducts(newFilteredProducts);
-    //     }
+    if (event.key === "Enter") {
+      const newFilteredTasks = allTask?.filter((task) =>
+        task.issue.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredTasks(newFilteredTasks);
+    }
   };
 
   useEffect(() => {
     if (searchText.length === 0) {
       // console.log("search text empty");
-      setFilteredProducts();
+      setFilteredTasks(allTask);
     }
-  }, [searchText]);
+  }, [searchText, isAddOrUpdateTask]);
 
-  // console.log("allProducts", allProducts, "filter product=", filteredProducts);
+  // console.log("allProducts", allProducts, "filter product=", filteredTasks);
 
   //handle task add btn click
   const handelAddAndTaskDetails = () => {
@@ -161,7 +162,7 @@ const Task = () => {
           </div>
         </div>
         <TaskTable
-          tasks={allTask}
+          tasks={filteredTasks}
           setTaskId={setTaskId}
           setIsDeleteModalOpen={setIsDeleteModalOpen}
           handelTaskBtnClick={handelTaskBtnClick}
