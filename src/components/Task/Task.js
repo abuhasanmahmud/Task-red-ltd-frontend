@@ -11,13 +11,13 @@ const Task = () => {
   const [allTask, setAllTask] = useState([]);
   const [isTaskDrawerOpen, setIsTaskDrawerOpen] = useState(false);
   const [taskDetails, setTaskDetails] = useState({});
-  const [filteredTasks, setFilteredTasks] = useState([]);
   const [taskId, setTaskId] = useState("");
 
   const [isAddOrUpdateTask, setIsAddOrUpdateTask] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteTask, setIsDeleteTask] = useState(false);
-  console.log("isDeleteModalOpen", isDeleteModalOpen);
+  const [searchText, setSearchText] = useState("");
+  // console.log("isDeleteModalOpen", isDeleteModalOpen);
 
   useEffect(() => {
     (async () => {
@@ -34,9 +34,17 @@ const Task = () => {
         toast.error(err ? err?.response?.data?.message : err.message || "erros");
       }
     })();
-  }, [isAddOrUpdateTask, isDeleteTask]);
+  }, [isAddOrUpdateTask, isDeleteTask, searchText.length === 0]);
 
-  // console.log("all task", allTask);
+  //Handel product searching
+  const handleSearch = (event) => {
+    if (event.key === "Enter") {
+      const newFilteredTasks = allTask?.filter((task) =>
+        task.issue.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setAllTask(newFilteredTasks);
+    }
+  };
 
   //handle shorting by category
   const [shotvalue, setShotValue] = useState("");
@@ -45,38 +53,15 @@ const Task = () => {
 
   if (shotvalue) {
     if (sv === "popularity") {
-      filteredTasks?.sort((a, b) => (a.numOfReviews > b.numOfReviews ? 1 : -1));
+      allTask?.sort((a, b) => (a.numOfReviews > b.numOfReviews ? 1 : -1));
     } else if (sv === "a_zorder") {
-      filteredTasks?.sort((a, b) => (a.name > b.name ? 1 : -1));
+      allTask?.sort((a, b) => (a.issue > b.issue ? 1 : -1));
     } else if (sv === "z_aorder") {
-      filteredTasks?.sort((a, b) => (b.name > a.name ? 1 : -1));
-    } else if (sv === "low_highprice") {
-      filteredTasks?.sort((a, b) => (Number(a.price) > Number(b.price) ? 1 : -1));
-    } else if (sv === "high_lowprice") {
-      filteredTasks?.sort((a, b) => (Number(b.price) > Number(a.price) ? 1 : -1));
+      allTask?.sort((a, b) => (b.issue > a.issue ? 1 : -1));
     }
   }
 
-  //Handel product searching
-  const [searchText, setSearchText] = useState("");
-
-  const handleSearch = (event) => {
-    if (event.key === "Enter") {
-      const newFilteredTasks = allTask?.filter((task) =>
-        task.issue.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setFilteredTasks(newFilteredTasks);
-    }
-  };
-
-  useEffect(() => {
-    if (searchText.length === 0) {
-      // console.log("search text empty");
-      setFilteredTasks(allTask);
-    }
-  }, [searchText, isAddOrUpdateTask]);
-
-  // console.log("allProducts", allProducts, "filter product=", filteredTasks);
+  // console.log("allProducts", allProducts, "filter product=", allTask);
 
   //handle task add btn click
   const handelAddAndTaskDetails = () => {
@@ -126,7 +111,7 @@ const Task = () => {
             <div className=" relative ">
               <input
                 type="text"
-                placeholder="Search products"
+                placeholder="Search task and press Enter"
                 value={searchText}
                 onKeyPress={handleSearch}
                 onChange={(e) => setSearchText(e.target.value)}
@@ -151,18 +136,15 @@ const Task = () => {
                 className=" block w-full rounded-md border-0 py-2  text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 "
                 onChange={(e) => setShotValue(e.target.value)}
               >
-                <option>Popularity</option>
+                <option>Shorting</option>
                 <option>A _ Z Order</option>
                 <option>Z _ A Order</option>
-                <option>Average Rating</option>
-                <option>Low _ High Price</option>
-                <option>High _ Low Price</option>
               </select>
             </div>
           </div>
         </div>
         <TaskTable
-          tasks={filteredTasks}
+          tasks={allTask}
           setTaskId={setTaskId}
           setIsDeleteModalOpen={setIsDeleteModalOpen}
           handelTaskBtnClick={handelTaskBtnClick}

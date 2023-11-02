@@ -21,7 +21,6 @@ const TaskDrawer = ({ isTaskDrawerOpen, setIsTaskDrawerOpen, taskDetails, setIsA
     setValue("section", taskDetails?.section);
     // setValue("img", taskDetails?.img);
   }, [taskDetails]);
-  console.log(taskDetails);
 
   const [submitting, setSubmitting] = useState(false);
 
