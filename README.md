@@ -3,6 +3,6 @@
 
 **Functionality**<br>
    `1.`Task Crud operation<br>
-   2.Task filtering<br>
-   1.Task shorting<br>
+   `2.`Task filtering<br>
+   `3.`Task shorting<br>
 
