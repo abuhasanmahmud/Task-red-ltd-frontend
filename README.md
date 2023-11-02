@@ -2,6 +2,5 @@
 #Live Link : https://task-red-ltd-frontend.vercel.app/<br>
 
 **Functionality**<br>
-*Task Crud operation
-*
+*Task Crud operation<br>
 
