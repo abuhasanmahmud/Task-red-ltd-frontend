@@ -103,11 +103,7 @@ const SignIn = () => {
           >
             Sign In
           </button>
-          {isLoading && (
-            <>
-              <p>Loadding...........</p>
-            </>
-          )}
+
           <p className="text-sm text-center font-titleFont font-medium mt-4">
             Don't have an Account?{" "}
             <Link to="/signup">
