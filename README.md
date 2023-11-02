@@ -1,5 +1,5 @@
 <h1 className="font-bold">Task Management Application</h1>   <br>
-#Live Link : https://task-red-ltd-frontend.vercel.app/    <br>
+#Live Link : https://task-red-ltd-frontend.vercel.app/   <br>
 
 This is simple setup for MERN project email verification/forget-password with nodemailer and gmail default server.
 
