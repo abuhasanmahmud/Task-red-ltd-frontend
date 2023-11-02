@@ -1,17 +1,11 @@
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
 import TaskServices from "../../services/TaskServices";
 import { toast } from "react-toastify";
 
-const TaskTable = ({ tasks, setIsDeleteTask }) => {
-  const handelDeleteTask = async (id) => {
-    const res = await TaskServices.deleteTask(id);
-    console.log("res..in del", res);
-    if (!res?.error) {
-      setIsDeleteTask(true);
-      toast.success(`${res?.message}`);
-    }
+const TaskTable = ({ tasks, setTaskId, setIsDeleteModalOpen, handelTaskBtnClick }) => {
+  const handelDeleteBtnClick = (task) => {
+    setTaskId(task._id.toString());
+    setIsDeleteModalOpen(true);
   };
 
   return (
@@ -39,13 +33,13 @@ const TaskTable = ({ tasks, setIsDeleteTask }) => {
                       scope="col"
                       className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                     >
-                      Description
+                      section
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                     >
-                      Status
+                      Description
                     </th>
                     <th
                       scope="col"
@@ -53,34 +47,44 @@ const TaskTable = ({ tasks, setIsDeleteTask }) => {
                     >
                       Details
                     </th>
-                    <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-0">
-                      <span className="sr-only">Edit</span>
+
+                    <th
+                      scope="col"
+                      className="px-3 py-3 text-center text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                      Action
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {tasks?.map((person) => (
-                    <tr key={person?.email}>
+                  {tasks?.map((task) => (
+                    <tr key={task?._id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                        {person?._id}
+                        {task?._id.toString().slice(5, 12)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person?.issue}
+                        {task?.issue}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person?.des}
+                        {task?.section}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person?.status}
-                      </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                        <a
-                          onClick={() => handelDeleteTask(person._id)}
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{task?.des}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">details icon</td>
+
+                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4  flex justify-center  items-center gap-2 text-sm font-medium sm:pr-0 mt-2">
+                        <button
+                          onClick={() => handelTaskBtnClick(task)}
+                          className="text-indigo-600 hover:text-indigo-900 cursor-pointer "
                         >
-                          Edit<span className="sr-only">, {person?.name}</span>
-                        </a>
+                          Edit<span className="sr-only"></span>
+                        </button>
+
+                        <button
+                          onClick={() => handelDeleteBtnClick(task)}
+                          className="text-indigo-600 hover:text-indigo-900 ml-1"
+                        >
+                          <RiDeleteBin5Fill className=" cursor-pointer " />
+                        </button>
                       </td>
                     </tr>
                   ))}

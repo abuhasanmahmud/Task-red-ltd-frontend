@@ -4,11 +4,20 @@ import { GrClose } from "react-icons/gr";
 import TaskTable from "./TaskTable";
 import TaskServices from "../../services/TaskServices";
 import { toast } from "react-toastify";
+import TaskDrawer from "./TaskDrawer";
+import DeleteModal from "../Modal/DeleteModal";
 
 const Task = () => {
+  const [isTaskDrawerOpen, setIsTaskDrawerOpen] = useState(false);
+  const [taskDetails, setTaskDetails] = useState({});
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [taskId, setTaskId] = useState("");
   const [allTask, setAllTask] = useState([]);
+  const [isAddOrUpdateTask, setIsAddOrUpdateTask] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleteTask, setIsDeleteTask] = useState(false);
-  console.log("isDeleteTask", isDeleteTask);
+  console.log("isDeleteModalOpen", isDeleteModalOpen);
+
   useEffect(() => {
     (async () => {
       try {
@@ -16,25 +25,17 @@ const Task = () => {
         console.log("res..", res);
         if (res) {
           setAllTask(res?.tasks);
+          setIsAddOrUpdateTask(false);
           setIsDeleteTask(false);
+          // setIsDeleteModalOpen(false);
         }
       } catch (err) {
         toast.error(err ? err?.response?.data?.message : err.message || "erros");
       }
     })();
-  }, [isDeleteTask]);
+  }, [isAddOrUpdateTask, isDeleteTask]);
 
   // console.log("all task", allTask);
-  const [isProductDrawerOpen, setIsProductDrawerOpen] = useState(false);
-  const [productDetails, setProductDetails] = useState({});
-  const [productId, setProductId] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
-  //handel product update
-  const handelProductUpdata = (item) => {
-    setProductDetails(item);
-    setIsProductDrawerOpen(true);
-  };
 
   //handle shorting by category
   const [shotvalue, setShotValue] = useState("");
@@ -76,15 +77,32 @@ const Task = () => {
 
   // console.log("allProducts", allProducts, "filter product=", filteredProducts);
 
+  //handle task add btn click
+  const handelAddAndTaskDetails = () => {
+    setIsTaskDrawerOpen(true);
+    setTaskDetails({});
+  };
+
+  //handel task  update click
+  const handelTaskBtnClick = (item) => {
+    setTaskDetails(item);
+    setIsTaskDrawerOpen(true);
+  };
   return (
     <>
-      {/* <ProductDrawer
-          isProductDrawerOpen={isProductDrawerOpen}
-          setIsProductDrawerOpen={setIsProductDrawerOpen}
-          productDetails={productDetails}
-        /> */}
+      <TaskDrawer
+        isTaskDrawerOpen={isTaskDrawerOpen}
+        setIsTaskDrawerOpen={setIsTaskDrawerOpen}
+        taskDetails={taskDetails}
+        setIsAddOrUpdateTask={setIsAddOrUpdateTask}
+      />
 
-      {/* <DeleteModal2 productId={productId} /> */}
+      <DeleteModal
+        isDeleteModalOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        taskId={taskId}
+        setIsDeleteTask={setIsDeleteTask}
+      />
 
       <section className="mx-auto w-full max-w-7xl px-4 py-4 ">
         <div className="flex flex-col space-y-4  md:flex-row md:items-center md:justify-between md:space-y-0">
@@ -94,9 +112,7 @@ const Task = () => {
 
           <div>
             <button
-              //         onClick={(e) => {
-              //           setIsProductDrawerOpen(true), setProductDetails({});
-              //         }}
+              onClick={(e) => handelAddAndTaskDetails()}
               type="button"
               className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
             >
@@ -144,7 +160,12 @@ const Task = () => {
             </div>
           </div>
         </div>
-        <TaskTable tasks={allTask} setIsDeleteTask={setIsDeleteTask} />
+        <TaskTable
+          tasks={allTask}
+          setTaskId={setTaskId}
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
+          handelTaskBtnClick={handelTaskBtnClick}
+        />
       </section>
     </>
   );
